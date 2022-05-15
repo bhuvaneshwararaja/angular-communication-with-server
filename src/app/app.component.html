@@ -11,6 +11,7 @@
   <div class="card p-2 col-6" >
     <my-rental-list 
       [rentalList]="rentalList"
+      (delete)="deleteRentalItem($event)"
       ></my-rental-list>
   </div>
   

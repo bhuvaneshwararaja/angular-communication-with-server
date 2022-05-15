@@ -12,7 +12,7 @@ import { RentalListService } from './rental-list.service';
 })
 export class AppComponent  {
   flops$;
-  rentalList = [];
+  rentalList:any = [];
 
   constructor(private movieService: MovieService, 
     private rentalListService: RentalListService) {
@@ -20,10 +20,26 @@ export class AppComponent  {
 
   ngOnInit() {
     this.flops$ = this.movieService.getMovies();
-    
+    this.updateRentalList()
   }
 
-  addToRentalList(flop) {
+
+  updateRentalList(){
+    this.rentalListService.getRentalList().subscribe(res => {
+      this.rentalList = res
+    })
   }
+  addToRentalList(flop) {
+    flop.id = undefined
+    this.rentalListService.addRentalMovies(flop).subscribe(res => {
+        this.updateRentalList()
+    })  
+   }
+
+   deleteRentalItem(movieId){
+        this.rentalListService.deleteRentalItem(movieId).subscribe(res =>{
+            this.updateRentalList()
+        })
+   }
 
 }
